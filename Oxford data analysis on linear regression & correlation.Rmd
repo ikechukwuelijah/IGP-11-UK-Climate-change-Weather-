@@ -1,0 +1,92 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+
+# Perform linear regression on climate dataset
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(error = TRUE,comment=NA) 
+```
+
+
+```{r libraries, include=FALSE}
+# Load required libraries
+library(kableExtra) # for nice tables
+
+library(readxl) # for reading in an excel file
+
+library(dplyr)
+
+library(lubridate) # for handling date / time variables
+library(ggplot2)
+
+library(MASS)
+
+# options for descriptive statistics
+library(summarytools) # 
+library(psych)
+
+library(patchwork) # for plot layout options
+
+
+library(corrplot) # correlation plots
+library(performance) # regression model performance and comparison
+# note that the compare_performance function also requires the see package installed.
+
+
+library(glmnet) # for LASSO /  Ridge regression.
+```
+
+# Data description
+
+This data was collected from Uk met office open source data
+
+it contains the following variables:
+
+- Year and month
+
+- Mean daily temperature ('tmax degC' and 'tmin degC')
+
+- Days of air frost ('af hours')
+
+- Total rainfall ('rain mm')
+
+- Total sunshine duration ('sun hours')
+
+```{r data}
+# load dataset
+data<-read.csv("Oxford.csv")
+head(data)
+```
+
+
+```{r dataprep}
+# View data structure for more insight (variables)
+str(data)
+```
+# Simple linear regression using oxford dataset
+
+plot tmax.degC against tmin.degC
+
+
+```{r}
+
+#library(ggplot2)
+ggplot(data, aes(y=tmax.degC,x=tmin.degC)) +
+  geom_point()
+```
+we can deduce that when tmax.degC is high, tmin.degC is low
+Is this simple linear regression good?
+
+
+```{r}
+
+with(data, cor(tmax.degC,tmin.degC))
+with(data, cor.test(tmax.degC,tmin.degC))
+
+```
+
